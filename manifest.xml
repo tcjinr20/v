@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://wx.cubevip.com" versionCode="0.6">
+	<application setting="false">
+		<name><![CDATA[禾匠仿二更视频]]></name>
+		<identifie><![CDATA[hs_video]]></identifie>
+		<version><![CDATA[1.6.7.3]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[禾匠仿二更视频]]></ability>
+		<description><![CDATA[禾匠仿二更视频]]></description>
+		<author><![CDATA[立方微传]]></author>
+		<url><![CDATA[https://wx.cubevip.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		<supports>
+			<item type="wxapp" />
+		</supports>
+	</platform>
+	<bindings>
+	</bindings>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `zjhj_video_advertisement` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(20) DEFAULT NULL COMMENT '广告标题',
+  `pic` tinytext COMMENT '广告图片',
+  `appid` varchar(20) DEFAULT NULL COMMENT '要打开的小程序 appId',
+  `path` tinytext COMMENT '打开的页面路径，如果为空则打开首页',
+  `store_id` int(11) DEFAULT NULL,
+  `created_at` int(10) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_banner` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `banner_url` longtext,
+  `url` longtext,
+  `introduce` longtext COMMENT '介绍',
+  `sort` int(11) DEFAULT NULL COMMENT '100',
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_cat` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '标题',
+  `pic_url` longtext COMMENT '图片地址',
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  `update_time` int(11) DEFAULT NULL COMMENT '更新时间',
+  `sort` int(11) DEFAULT '100' COMMENT '排序',
+  `is_show` int(11) DEFAULT '0' COMMENT '是否设为首页推荐',
+  `cover_url` longtext COMMENT '首页缩略图',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_collect` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `video_id` int(11) DEFAULT NULL COMMENT '视频ID',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户ID',
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `video_id` int(11) DEFAULT NULL COMMENT '视频ID',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户ID',
+  `content` longtext COMMENT '评论内容',
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  `c_id` int(11) DEFAULT NULL COMMENT '回复的评论 0--顶级楼层',
+  `store_id` int(11) DEFAULT NULL,
+  `upload_img` longtext,
+  `top_id` int(11) DEFAULT NULL COMMENT '顶级楼层ID',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_comment_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `c_id` int(11) DEFAULT NULL COMMENT '评论ID',
+  `type` int(11) DEFAULT NULL COMMENT '类型 0--点赞 1--踩 ',
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL COMMENT '操作者ID',
+  `store_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_form` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `video_id` int(11) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '字段名称',
+  `type` varchar(255) DEFAULT NULL COMMENT '字段类型',
+  `required` int(11) DEFAULT NULL COMMENT '是否必填',
+  `default` varchar(255) DEFAULT NULL COMMENT '默认值',
+  `tip` varchar(255) DEFAULT NULL COMMENT '提示语',
+  `sort` int(11) DEFAULT NULL,
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_form_id` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `wechat_open_id` varchar(255) DEFAULT NULL,
+  `order_no` varchar(255) DEFAULT NULL,
+  `form_id` varchar(255) DEFAULT NULL,
+  `type` varchar(255) DEFAULT '' COMMENT '可选值：form_id或prepay_id',
+  `send_count` int(11) DEFAULT '0',
+  `addtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_level` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL COMMENT '描述',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '价格',
+  `s_price` decimal(10,2) DEFAULT NULL COMMENT '续费价格',
+  `date` int(11) DEFAULT NULL COMMENT '时间（单位：天）',
+  `is_groom` int(11) DEFAULT NULL COMMENT '是否设为推荐  0--不是 1--是',
+  `sort` int(11) DEFAULT NULL,
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_member_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `order_no` varchar(255) DEFAULT NULL COMMENT '订单号',
+  `title` varchar(255) DEFAULT NULL COMMENT '会员标题',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '支付价格',
+  `date` int(11) DEFAULT NULL COMMENT '会员时间',
+  `is_pay` int(11) DEFAULT '0' COMMENT '是否支付 0--否 1--是',
+  `pay_time` int(11) DEFAULT NULL COMMENT '支付时间',
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_option` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `group` varchar(255) DEFAULT NULL,
+  `key` varchar(255) DEFAULT NULL,
+  `value` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `order_no` varchar(255) DEFAULT NULL COMMENT '订单号',
+  `video_id` int(11) DEFAULT NULL COMMENT '视频ID',
+  `user_id` int(11) DEFAULT NULL,
+  `is_pay` int(11) DEFAULT NULL COMMENT '是否支付',
+  `pay_type` int(11) DEFAULT NULL COMMENT '支付方式',
+  `pay_time` int(11) DEFAULT NULL COMMENT '支付时间',
+  `is_use` int(11) DEFAULT NULL COMMENT '是否使用 0--未使用 1--已使用 2--退款',
+  `use_time` int(11) DEFAULT NULL COMMENT '使用时间',
+  `clerk_id` int(11) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL COMMENT '预定金额',
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  `is_refund` int(11) DEFAULT '1' COMMENT '是否支持退款 0--不支持 1--支持',
+  `type` int(11) DEFAULT '0' COMMENT '订单类型 0--预约 1--购买视频',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_order_refund` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `video_id` int(11) DEFAULT NULL,
+  `order_refund_no` varchar(255) DEFAULT NULL COMMENT '退款单号',
+  `type` int(11) DEFAULT NULL COMMENT '类型 0--退款',
+  `refund_price` decimal(10,2) DEFAULT NULL COMMENT '退款金额',
+  `desc` longtext COMMENT '退款说明',
+  `status` int(11) DEFAULT NULL COMMENT '处理状态 0--待处理 1--退款成功 2--拒绝退款',
+  `refund_desc` longtext COMMENT '拒绝理由',
+  `response_time` int(11) DEFAULT NULL COMMENT '处理时间',
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_search` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `keyword` varchar(255) DEFAULT NULL,
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_store` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acid` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `wechat_platform_id` int(11) DEFAULT '0',
+  `wechat_app_id` int(11) DEFAULT '0',
+  `name` varchar(255) DEFAULT NULL,
+  `copyright` varchar(255) DEFAULT NULL COMMENT '版权文字',
+  `copyright_pic_url` varchar(255) DEFAULT NULL COMMENT '版权图片链接',
+  `copyright_url` varchar(255) DEFAULT NULL COMMENT '版权的超链接',
+  `contact_tel` varchar(255) DEFAULT NULL,
+  `show_customer_service` varchar(255) DEFAULT NULL,
+  `pic_style` int(11) DEFAULT '0' COMMENT '是否开启类型标签0--关闭 1--开启',
+  `video_icon` longtext COMMENT '视频标签',
+  `audio_icon` longtext COMMENT '音频标签',
+  `refund` int(11) DEFAULT '1' COMMENT '是否开启退款功能 0关闭 1--开启',
+  `member` int(11) DEFAULT NULL COMMENT '是否开通会员 0--不开通 1--开通',
+  `customer_service_pic` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_upload_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) NOT NULL,
+  `storage_type` varchar(255) NOT NULL DEFAULT '' COMMENT '存储类型：留空=本地，aliyun=阿里云oss，qcloud=腾讯云cos，qiniu=七牛云存储',
+  `aliyun` longtext COMMENT '阿里云oss配置，json格式',
+  `qcloud` longtext COMMENT '腾讯云cos配置，json格式',
+  `qiniu` longtext COMMENT '七牛云存储配置，json格式',
+  `addtime` int(11) NOT NULL DEFAULT '0',
+  `is_delete` smallint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='文件上传方式配置';
+CREATE TABLE IF NOT EXISTS `zjhj_video_upload_file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) NOT NULL,
+  `file_url` longtext COMMENT '文件url',
+  `extension` varchar(255) NOT NULL DEFAULT '' COMMENT '文件扩展名',
+  `type` varchar(255) NOT NULL DEFAULT '' COMMENT '文件类型：',
+  `size` int(11) NOT NULL DEFAULT '0' COMMENT '文件大小，字节',
+  `addtime` int(11) NOT NULL DEFAULT '0',
+  `is_delete` smallint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户上传的文件';
+CREATE TABLE IF NOT EXISTS `zjhj_video_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` smallint(1) NOT NULL DEFAULT '1' COMMENT '用户类型：0=管理员，1=普通用户',
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `auth_key` varchar(255) NOT NULL,
+  `access_token` varchar(255) NOT NULL,
+  `addtime` int(11) NOT NULL DEFAULT '0',
+  `is_delete` smallint(1) NOT NULL DEFAULT '0',
+  `wechat_open_id` varchar(255) NOT NULL DEFAULT '' COMMENT '微信openid',
+  `wechat_union_id` varchar(255) NOT NULL DEFAULT '' COMMENT '微信用户union id',
+  `nickname` varchar(255) NOT NULL DEFAULT '' COMMENT '昵称',
+  `avatar_url` longtext NOT NULL COMMENT '头像url',
+  `store_id` int(11) NOT NULL DEFAULT '0' COMMENT '商城id',
+  `is_comment` int(11) DEFAULT NULL COMMENT '是否禁言 0--否 1--是',
+  `is_clerk` int(11) DEFAULT '0',
+  `is_member` int(11) DEFAULT '0' COMMENT '是否是会员',
+  `due_time` int(11) DEFAULT NULL COMMENT '会员到期时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='用户';
+CREATE TABLE IF NOT EXISTS `zjhj_video_user_form` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `video_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `key` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_video` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `cat_id` int(11) DEFAULT NULL COMMENT '分类id',
+  `title` varchar(255) DEFAULT NULL COMMENT '标题',
+  `pic_url` longtext COMMENT '封面图片',
+  `video_url` longtext COMMENT '视频',
+  `content` longtext COMMENT '简介',
+  `sort` int(11) DEFAULT NULL COMMENT '排序',
+  `is_delete` int(11) DEFAULT NULL,
+  `addtime` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT '0' COMMENT '状态 0--下架 1--上架',
+  `is_show` int(11) DEFAULT NULL COMMENT '是否设为轮播 0--否 1--是',
+  `introduce` varchar(255) DEFAULT NULL COMMENT '简介',
+  `banner_url` longtext,
+  `video_time` decimal(11,2) DEFAULT NULL COMMENT '时长',
+  `detail` longtext,
+  `order` int(11) DEFAULT NULL COMMENT '是否开启预定',
+  `money` decimal(10,2) DEFAULT NULL COMMENT '预定金额',
+  `refund` int(11) DEFAULT '0',
+  `page_view` int(11) DEFAULT '100' COMMENT '浏览量',
+  `type` int(11) DEFAULT '0' COMMENT '视频来源 0--其他 1--腾讯视频',
+  `style` int(11) DEFAULT '0' COMMENT '多媒体类型 0--视频 1--音频',
+  `is_pay` int(11) DEFAULT '0' COMMENT '是否开启付费收看',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_video_pay` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `store_id` int(11) DEFAULT NULL,
+  `video_id` int(11) DEFAULT NULL COMMENT '视频ID',
+  `type` int(11) DEFAULT NULL COMMENT '付费类型',
+  `time` int(11) DEFAULT NULL COMMENT '免费时长',
+  `price` decimal(10,2) DEFAULT NULL COMMENT '收费价格',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `zjhj_video_wechat_app` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acid` int(11) NOT NULL DEFAULT '0' COMMENT '微擎公众号id',
+  `user_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `app_id` varchar(255) NOT NULL,
+  `app_secret` varchar(255) NOT NULL,
+  `desc` varchar(255) DEFAULT NULL,
+  `mch_id` varchar(255) DEFAULT NULL,
+  `key` varchar(255) DEFAULT NULL,
+  `cert_pem` longtext,
+  `key_pem` longtext,
+  `addtime` int(11) NOT NULL DEFAULT '0',
+  `is_delete` smallint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='微信小程序';
+CREATE TABLE IF NOT EXISTS `zjhj_video_wechat_app` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `acid` int(11) NOT NULL DEFAULT '0' COMMENT '微擎公众号id',
+  `user_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `app_id` varchar(255) NOT NULL,
+  `app_secret` varchar(255) NOT NULL,
+  `desc` varchar(255) DEFAULT NULL,
+  `mch_id` varchar(255) DEFAULT NULL,
+  `key` varchar(255) DEFAULT NULL,
+  `cert_pem` longtext,
+  `key_pem` longtext,
+  `addtime` int(11) NOT NULL DEFAULT '0',
+  `is_delete` smallint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='微信小程序';
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `zjhj_video_advertisement`;
+DROP TABLE IF EXISTS `zjhj_video_banner`;
+DROP TABLE IF EXISTS `zjhj_video_cat`;
+DROP TABLE IF EXISTS `zjhj_video_collect`;
+DROP TABLE IF EXISTS `zjhj_video_comment`;
+DROP TABLE IF EXISTS `zjhj_video_comment_type`;
+DROP TABLE IF EXISTS `zjhj_video_form`;
+DROP TABLE IF EXISTS `zjhj_video_form_id`;
+DROP TABLE IF EXISTS `zjhj_video_level`;
+DROP TABLE IF EXISTS `zjhj_video_member_order`;
+DROP TABLE IF EXISTS `zjhj_video_option`;
+DROP TABLE IF EXISTS `zjhj_video_order`;
+DROP TABLE IF EXISTS `zjhj_video_order_refund`;
+DROP TABLE IF EXISTS `zjhj_video_search`;
+DROP TABLE IF EXISTS `zjhj_video_store`;
+DROP TABLE IF EXISTS `zjhj_video_upload_config`;
+DROP TABLE IF EXISTS `zjhj_video_upload_file`;
+DROP TABLE IF EXISTS `zjhj_video_user`;
+DROP TABLE IF EXISTS `zjhj_video_user_form`;
+DROP TABLE IF EXISTS `zjhj_video_video`;
+DROP TABLE IF EXISTS `zjhj_video_video_pay`;
+DROP TABLE IF EXISTS `zjhj_video_wechat_app`;
+DROP TABLE IF EXISTS `zjhj_video_wechat_app`;
+]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>
