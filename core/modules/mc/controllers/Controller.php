@@ -9,4 +9,5 @@ namespace app\modules\mc\controllers;
 
 class Controller extends \app\controllers\Controller {
     public $layout = 'main';
+    public $store_id = 1;
 }

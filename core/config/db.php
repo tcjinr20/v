@@ -26,5 +26,5 @@ return [
     'username' => $config['db']['master']['username'],
     'password' => $config['db']['master']['password'],
     'charset' => 'utf8',
-    'tablePrefix' => 'zjhj_video_',
+    'tablePrefix' => 'hls_',
 ];

@@ -32,7 +32,7 @@ class Store extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'zjhj_video_store';
+        return '{{%store}}';
     }
 
     /**

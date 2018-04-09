@@ -7,10 +7,10 @@ $config['db']['master']['host'] = '127.0.0.1';
 $config['db']['master']['username'] = 'root';
 $config['db']['master']['password'] = 'root';
 $config['db']['master']['port'] = '3306';
-$config['db']['master']['database'] = 'wx';
+$config['db']['master']['database'] = 'hls_vedio';
 $config['db']['master']['charset'] = 'utf8';
 $config['db']['master']['pconnect'] = 0;
-$config['db']['master']['tablepre'] = 'ims_';
+$config['db']['master']['tablepre'] = 'hls_';
 
 $config['db']['slave_status'] = false;
 $config['db']['slave']['1']['host'] = '';
@@ -20,7 +20,7 @@ $config['db']['slave']['1']['port'] = '3307';
 $config['db']['slave']['1']['database'] = '';
 $config['db']['slave']['1']['charset'] = 'utf8';
 $config['db']['slave']['1']['pconnect'] = 0;
-$config['db']['slave']['1']['tablepre'] = 'ims_';
+$config['db']['slave']['1']['tablepre'] = 'hls_';
 $config['db']['slave']['1']['weight'] = 0;
 
 $config['db']['common']['slave_except_table'] = array('core_sessions');
