@@ -11,8 +11,6 @@ $urlManager = Yii::$app->urlManager;
     <title><?= $this->title ?></title>
     <link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet">
     <link href="/statics/mc/style.css" rel="stylesheet">
-    <style>
-    </style>
     <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
     <script src="//cdn.bootcss.com/tether/1.4.0/js/tether.min.js"></script>
