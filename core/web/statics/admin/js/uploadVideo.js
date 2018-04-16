@@ -3,7 +3,7 @@
  */
 
     // Custom example logic
-$(document).ready(function () {
+function initViedo(){
     var video_picker = $('.video-picker');
     video_picker.each(function (i) {
         var picker = this;
@@ -29,7 +29,7 @@ $(document).ready(function () {
                 filters: {
                     //max_file_size: '50mb',
                     mime_types: [
-                        {title: "Video files", extensions: "mp4,mp3"}
+                        {title: "Video files", extensions: "mp4,mp3,torrent"}
                     ]
                 },
 
@@ -63,15 +63,15 @@ $(document).ready(function () {
                         $('.video-check').prop('href', res.data.url);
                         $('#myVideo').prop('src', res.data.url);
                         $('.video-preview').find('span').html('100%');
-                        $('.video-time-error').prop('hidden', false).html('获取时长中，请稍后...');
-                        var int = setInterval(function () {
-                            var time = document.getElementById('myVideo').duration;
-                            if (time && time != 'NaN') {
-                                $('.video-time-error').prop('hidden', true);
-                                $('.video_time').val(time);
-                                window.clearInterval(int);
-                            }
-                        }, 1000);
+                        //$('.video-time-error').prop('hidden', false).html('获取时长中，请稍后...');
+                        //var int = setInterval(function () {
+                        //    var time = document.getElementById('myVideo').duration;
+                        //    if (time && time != 'NaN') {
+                        //        $('.video-time-error').prop('hidden', true);
+                        //        $('.video_time').val(time);
+                        //        window.clearInterval(int);
+                        //    }
+                        //}, 1000);
                     },
                     UploadProgress: function (up, file) {
                         var percent = file.percent - 1;
@@ -103,4 +103,4 @@ $(document).ready(function () {
 
         uploaderVideo();
     });
-});
+};

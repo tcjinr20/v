@@ -90,4 +90,11 @@ class UploadController extends Controller
         $form->store = $this->store;
         return $this->renderJson($form->saveDVideo($name));
     }
+
+    public function actionTorrent($name = null){
+        $form = new UploadForm();
+        $form->upload_config = $this->upload_config;
+        $form->store = $this->store;
+        return $this->renderJson($form->saveTorrent($name));
+    }
 }

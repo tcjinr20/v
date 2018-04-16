@@ -35,7 +35,7 @@ class Cat extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['store_id', 'is_delete', 'addtime', 'update_time', 'sort', 'is_show'], 'integer'],
+            [['store_id', 'is_delete', 'addtime', 'update_time', 'sort', 'is_show','cat_two'], 'integer'],
             [['pic_url', 'cover_url'], 'string'],
             [['name'], 'string', 'max' => 255],
         ];

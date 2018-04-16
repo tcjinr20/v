@@ -9,7 +9,7 @@ defined('YII_RUN') or exit('Access Denied');
  */
 $urlManager = Yii::$app->urlManager;
 $this->params['active_nav_group'] = isset($this->params['active_nav_group']) ? $this->params['active_nav_group'] : 0;
-$version = '1.0.0';
+$version = '1.0.3';
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">

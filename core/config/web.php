@@ -62,6 +62,12 @@ $config = [
         'mc' => [
             'class' => 'app\modules\mc\Module',
         ],
+        'cc' => [
+            'class' => 'app\modules\cc\Module',
+        ],
+        'leba' => [
+            'class' => 'app\modules\leba\Module',
+        ],
     ],
     'params' => $params,
 ];

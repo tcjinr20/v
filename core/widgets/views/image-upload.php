@@ -12,8 +12,9 @@ $preview_value = !empty($value) ? $value : '';
     <div class="image-picker" data-url="<?= $urlManager->createUrl(['upload/image']) ?>">
         <a href="javascript:" class="btn btn-secondary new-image-picker-btn">选择图片</a>
         <div class="image-picker-view-item">
-            <input class="image-picker-input"
-                   type="hidden"
+            <span>URL</span>
+            <input class="image-picker-input form-control"
+                   type="text"
                 <?= isset($name) ? "name='{$name}'" : null ?>
                 <?= isset($value) ? "value='{$value}'" : null ?>>
             <div class="image-picker-view"

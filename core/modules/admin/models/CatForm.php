@@ -21,6 +21,7 @@ class CatForm extends Model
     public $sort;
     public $is_show;
     public $cover_url;
+    public $cat_two;
 
     public function rules()
     {
@@ -29,7 +30,7 @@ class CatForm extends Model
             [['name','pic_url'],'required'],
             [['sort'],'default','value'=>100],
             [['sort'],'integer','min'=>1],
-            [['is_show'],'integer'],
+            [['is_show','cat_two'],'integer'],
         ];
     }
 
@@ -58,6 +59,7 @@ class CatForm extends Model
         $this->cat->sort = $this->sort;
         $this->cat->is_show = $this->is_show;
         $this->cat->cover_url = $this->cover_url;
+        $this->cat->cat_two =$this->cat_two;
         if($this->is_show == 1 && !$this->cover_url){
             return [
                 'code'=>1,

@@ -50,10 +50,27 @@ $this->params['active_nav_group'] = 2;
                         </div>
                         <div class="col-9">
                             <select class="form-control" name="model[cat_id]" size="4">
-                                <?php foreach ($cat_list as $index => $value): ?>
+                                <?php foreach ($cat_list as $index => $value):
+                                if($value['cat_two']==1){
+                                    ?>
                                     <option
                                         value="<?= $value['id'] ?>" <?= ($list['cat_id'] == $value['id']) ? "selected" : "" ?>><?= $value['name'] ?></option>
-                                <?php endforeach; ?>
+                                <?php } endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3 text-right">
+                            <label class=" col-form-label required">分类2</label>
+                        </div>
+                        <div class="col-9">
+                            <select class="form-control" name="model[cat_two]" size="4">
+                                <?php foreach ($cat_list as $index => $value):
+                                    if($value['cat_two']==2){
+                                        ?>
+                                        <option
+                                            value="<?= $value['id'] ?>" <?= ($list['cat_id'] == $value['id']) ? "selected" : "" ?>><?= $value['name'] ?></option>
+                                    <?php } endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -84,6 +101,13 @@ $this->params['active_nav_group'] = 2;
                         </div>
                         <div class="col-9">
                             <div class="pt-1">
+                                <label class="custom-control custom-radio style">
+                                    <input id="radio2" <?= $list['style'] == 4 ? 'checked' : null ?>
+                                           value="4"
+                                           name="model[style]" type="radio" class="custom-control-input">
+                                    <span class="custom-control-indicator"></span>
+                                    <span class="custom-control-description">种子</span>
+                                </label>
                                 <label class="custom-control custom-radio style">
                                     <input id="radio2" <?= $list['style'] == 0 ? 'checked' : null ?>
                                            value="0"
@@ -626,15 +650,15 @@ $this->params['active_nav_group'] = 2;
         }
         $('.video-check').attr('href', url);
         $('#myVideo').prop('src', url);
-        $('.video-time-error').prop('hidden', false).html('视频时长获取中，请稍后...');
-        var int = setInterval(function () {
-            var time = document.getElementById('myVideo').duration;
-            if (time && time != 'NaN') {
-                $('.video_time').val(time);
-                $('.video-time-error').prop('hidden', true);
-                window.clearInterval(int);
-            }
-        }, 1000);
+//        $('.video-time-error').prop('hidden', false).html('视频时长获取中，请稍后...');
+//        var int = setInterval(function () {
+//            var time = document.getElementById('myVideo').duration;
+//            if (time && time != 'NaN') {
+//                $('.video_time').val(time);
+//                $('.video-time-error').prop('hidden', true);
+//                window.clearInterval(int);
+//            }
+//        }, 1000);
     });
     $(document).on('click', '.type .custom-control-input', function () {
         var type = $(this).val();
@@ -642,17 +666,24 @@ $this->params['active_nav_group'] = 2;
         if (type == 1) {
             url = getvideo(url);
         }
-        $('.video-check').attr('href', url);
-        $('#myVideo').prop('src', url);
-        $('.video-time-error').prop('hidden', false).html('视频时长获取中，请稍后...');
-        var int = setInterval(function () {
-            var time = document.getElementById('myVideo').duration;
-            if (time && time != 'NaN') {
-                $('.video_time').val(time);
-                $('.video-time-error').prop('hidden', true);
-                window.clearInterval(int);
-            }
-        }, 1000);
+        alert(type)
+        if(type==4){
+<!--            --><?//= $urlManager->createUrl(['upload/video']) ?>
+
+        }else{
+            $('.video-check').attr('href', url);
+            $('#myVideo').prop('src', url);
+            $('.video-time-error').prop('hidden', false).html('视频时长获取中，请稍后...');
+        }
+
+//        var int = setInterval(function () {
+//            var time = document.getElementById('myVideo').duration;
+//            if (time && time != 'NaN') {
+//                $('.video_time').val(time);
+//                $('.video-time-error').prop('hidden', true);
+//                window.clearInterval(int);
+//            }
+//        }, 1000);
     });
     function getvideo(url) {
         $.ajax({
@@ -673,7 +704,7 @@ $this->params['active_nav_group'] = 2;
         });
         return url;
     }
-    $(document).ready(function () {
+        $(document).ready(function () {
         function time() {
             var url = $('.video');
             if (url.val() == '') {
@@ -683,15 +714,15 @@ $this->params['active_nav_group'] = 2;
                 return true;
             }
             $('#myVideo').prop('src', url.val());
-            $('.video-time-error').prop('hidden', false).html('视频时长获取中，请稍后...');
-            var int = setInterval(function () {
-                var time = document.getElementById('myVideo').duration;
-                if (time && time != 'NaN') {
-                    $('.video_time').val(time);
-                    $('.video-time-error').prop('hidden', true);
-                    window.clearInterval(int);
-                }
-            }, 1000);
+//            $('.video-time-error').prop('hidden', false).html('视频时长获取中，请稍后...');
+//            var int = setInterval(function () {
+//                var time = document.getElementById('myVideo').duration;
+//                if (time && time != 'NaN') {
+//                    $('.video_time').val(time);
+//                    $('.video-time-error').prop('hidden', true);
+//                    window.clearInterval(int);
+//                }
+//            }, 1000);
         }
 
         time();
@@ -802,11 +833,19 @@ $this->params['active_nav_group'] = 2;
             $('.style-2').prop('hidden', false);
             $('.is_pay').prop('hidden', false);
         }
-        if ($(this).val() == 1) {
+        if ($(this).val() == 1 || $(this).val()==4) {
             $('.type-hide').prop('hidden', true);
             $('.style-2').prop('hidden', false);
             $('.is_pay').prop('hidden', false);
         }
+
+        if($(this).val()=='4'){
+            console.log($('.video-picker'))
+            $('.video-picker').attr('data-url','<?= $urlManager->createUrl(['upload/torrent']) ?>');
+        }else{
+            $('.video-picker').attr('data-url','<?= $urlManager->createUrl(['upload/video']) ?>');
+        }
+        initViedo();
         if ($(this).val() == 2) {
             $('.type-hide').prop('hidden', true);
             $('.style-2').prop('hidden', true);

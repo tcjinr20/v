@@ -40,6 +40,14 @@ $this->params['active_nav_group'] = 2;
             </div>
             <div class="form-group row">
                 <div class="col-3 text-right">
+                    <label class=" col-form-label required">分类等级</label>
+                </div>
+                <div class="col-9">
+                    <input class="form-control" type="text" name="model[cat_two]" value="<?= $list['cat_two'] ?>">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3 text-right">
                     <label class=" col-form-label required">封面图片</label>
                 </div>
                 <div class="col-9">

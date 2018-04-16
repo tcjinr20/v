@@ -315,6 +315,40 @@ class UploadForm extends Model
         return $res;
     }
 
+    public function saveTorrent($name = null){
+        if (!$name) {
+            foreach ($_FILES as $_name => $file)
+                $name = $_name;
+        }
+        if (!$name)
+            $name = 'image';
+        $this->image = UploadedFile::getInstanceByName($name);
+        if (!$this->validate())
+            return $this->errors;
+
+        $allow_type = ['torrent'];
+        if (!in_array($this->image->extension, $allow_type)) {
+            return [
+                'code' => 1,
+                'msg' => '上传文件格式不正确，请上传' . implode('/', $allow_type) . '格式的图片',
+            ];
+        }
+
+        $fileMd5 = md5_file($this->image->tempName);
+        $saveName = $fileMd5 . '.' . $this->image->extension;
+        $saveDir = 'uploads/torrent/' . substr($saveName, 0, 2) . '/';
+
+//        $res = $this->saveFile($this->image->tempName, $saveDir, $saveName);
+        $res=$this->saveToLocal($this->image->tempName, $saveDir, $saveName, 0);
+        if ($res['code'] == 0) {
+            $res['data']['extension'] = $this->image->extension;
+            $res['data']['type'] = 'torrent';
+            $res['data']['size'] = $this->image->size;
+        }
+        $this->saveData($res);
+        return $res;
+    }
+
     public function saveVideo($name = null)
     {
         if (!$name) {

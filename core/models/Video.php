@@ -50,7 +50,7 @@ class Video extends \yii\db\ActiveRecord
         return [
             [['store_id', 'cat_id', 'sort', 'is_delete', 'addtime', 'status', 'is_show', 'order', 'refund', 'page_view', 'type', 'style', 'is_pay'], 'integer'],
             [['pic_url', 'video_url', 'content', 'banner_url', 'detail'], 'string'],
-            [['video_time', 'money'], 'number'],
+            [['video_time', 'money','cat_two'], 'number'],
             [['title', 'introduce'], 'string', 'max' => 255],
         ];
     }

@@ -41,7 +41,7 @@ class VideoForm extends Model
     public $type;
     public $style;
 
-
+    public $cat_two;
     public $is_pay;
     //pay_ 为前缀的表示视频的付费设置
     public $pay_price;
@@ -52,7 +52,7 @@ class VideoForm extends Model
     {
         return [
             [['video_url'], 'required', 'on' => 'VIDEO'],
-            [['cat_id', 'title', 'pic_url', 'content'], 'required'],
+            [['cat_id', 'title', 'pic_url', 'content','cat_two'], 'required'],
             [['title', 'pic_url', 'video_url', 'content', 'introduce', 'banner_url', 'form_list', 'form_name'], 'trim'],
             [['title', 'pic_url', 'video_url', 'content', 'introduce', 'banner_url', 'detail', 'form_name'], 'string'],
             [['sort', 'is_show', 'order', 'refund', 'page_view', 'type', 'style', 'is_pay', 'pay_time'], 'integer'],
@@ -99,7 +99,7 @@ class VideoForm extends Model
             $this->video->addtime = time();
             $this->video->status = 0;
             $this->video->store_id = $this->store_id;
-
+            $this->video->cat_two=$this->cat_two;
             $cat->update_time = time();
             if (!$cat->save()) {
                 return [
@@ -138,6 +138,7 @@ class VideoForm extends Model
         $this->video->page_view = $this->page_view;
         $this->video->type = $this->type;
         $this->video->style = $this->style;
+        $this->video->cat_two=$this->cat_two;
         if ($this->is_show == 1 && false) {
             if (!$this->banner_url) {
                 return [

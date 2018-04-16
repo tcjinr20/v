@@ -17,7 +17,7 @@ use app\models\WechatApp;
 
 class PassportController extends Controller
 {
-    public function actionLogin()
+    public function actionReg()
     {
         if(session_status() != PHP_SESSION_ACTIVE)
             session_start();
@@ -26,10 +26,9 @@ class PassportController extends Controller
 
         if(empty($we7_user) || empty($we7_account)){
             $current_url = \Yii::$app->request->absoluteUrl;
-//            $key ='addons/'.WE7_MODULE_NAME.'/core/web';
-//            $we7_url = mb_substr($current_url,0,stripos($current_url,$key));
+            $web_url ='?r=admin/passport/log';
 
-//            $this->redirect($we7_url)->send();
+            $this->redirect($web_url)->send();
             echo 'no login'.$current_url;
             exit();
         }
@@ -85,5 +84,20 @@ class PassportController extends Controller
 
         \Yii::$app->session->set('store_id', $store->id);
         $this->redirect(\Yii::$app->urlManager->createUrl(['admin/system/index']))->send();
+    }
+
+
+    public function actionLog(){
+        $name=\Yii::$app->request->post('name');
+        $pass=\Yii::$app->request->post('password');
+        if($name==='admin' && $pass ==='1984'){
+            \Yii::$app->session->set('name','admin');
+//            $user = User::findOne([
+//                'username'=>'admin'
+//            ]);
+//            $bool=\Yii::$app->user->login($user);
+            $this->redirect(\Yii::$app->urlManager->createUrl(['admin/system/index']))->send();
+        }
+       return $this->render('log');
     }
 }
